@@ -34,14 +34,6 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
 
         mInterstitialAd.setAdListener(new AdListener() {
 
-//            @Override
-//            public void onAdOpened() {
-//                super.onAdOpened();
-////                if (mIdlingResource != null) {
-////                    mIdlingResource.setIdleState(false);
-////                }
-//            }
-
             @Override
             public void onAdClosed() {
                 super.onAdClosed();
@@ -77,10 +69,7 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
 
     public void tellJoke(View view) {
 
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
 
-        }
         EndpointsAsyncTask asyncTask = new EndpointsAsyncTask(this);
         asyncTask.execute();
 
@@ -93,6 +82,10 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
         Intent intent = new Intent(this, JokeDisplay.class);
         intent.putExtra(JokeDisplay.JOKE_EXTRA, result);
         startActivity(intent);
+
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
 
     }
 }
