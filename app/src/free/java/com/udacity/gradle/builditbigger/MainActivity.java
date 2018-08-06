@@ -23,28 +23,10 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
 
     private InterstitialAd mInterstitialAd;
 
-//    private String mJoke;
-//    private Intent mJokeDisplayIntent;
-//
-//    @Nullable private SimpleIdlingResource mIdlingResource;
-//
-//    @VisibleForTesting
-//    @NonNull
-//    public IdlingResource getIdlingResource() {
-//        if (mIdlingResource == null) {
-//            mIdlingResource = new SimpleIdlingResource();
-//        }
-//        return mIdlingResource;
-//    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //getIdlingResource();
-
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
@@ -64,10 +46,6 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
             public void onAdClosed() {
                 super.onAdClosed();
                 mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
-//                if (mJokeDisplayIntent != null) {
-//                    startActivity(mJokeDisplayIntent);
-//                }
 
             }
         });
@@ -99,9 +77,6 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
 
     public void tellJoke(View view) {
 
-//        EndpointsAsyncTask asyncTask = new EndpointsAsyncTask(this);
-//        asyncTask.execute(new Pair<Context, SimpleIdlingResource>(this, mIdlingResource));
-
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
 
@@ -109,15 +84,11 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
         EndpointsAsyncTask asyncTask = new EndpointsAsyncTask(this);
         asyncTask.execute();
 
-        //new EndpointsAsyncTask().execute(new Pair<Context, SimpleIdlingResource>(this, mIdlingResource));
     }
 
 
     @Override
     public void fetchResult(String result) {
-//        if (mIdlingResource != null) {
-//            mIdlingResource.setIdleState(true);
-//        }
 
         Intent intent = new Intent(this, JokeDisplay.class);
         intent.putExtra(JokeDisplay.JOKE_EXTRA, result);

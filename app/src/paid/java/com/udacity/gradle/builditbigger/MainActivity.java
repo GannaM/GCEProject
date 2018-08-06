@@ -1,44 +1,33 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Context;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.test.espresso.IdlingResource;
+
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ProgressBar;
+
 
 import com.example.android.jokedisplay.JokeDisplay;
-import com.example.android.jokesource.JokeSource;
-
-import android.support.v4.util.Pair;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EndpointsAsyncTask.AsyncResponse {
 
-    @Nullable private SimpleIdlingResource mIdlingResource;
-
-    @VisibleForTesting
-    @NonNull
-    public IdlingResource getIdlingResource() {
-        if (mIdlingResource == null) {
-            mIdlingResource = new SimpleIdlingResource();
-        }
-        return mIdlingResource;
-    }
-
+    private MainActivityFragment mFragment;
+    private ProgressBar mSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getIdlingResource();
+        mSpinner = findViewById(R.id.pb_loading_indicator);
+
     }
 
 
@@ -66,18 +55,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void tellJoke(View view) {
 
-//        String joke = JokeSource.getJoke();
-//        //Toast.makeText(this, joke, Toast.LENGTH_SHORT).show();
-//
-//        Intent intent = new Intent(this, JokeDisplay.class);
-//        intent.putExtra(JokeDisplay.JOKE_EXTRA, joke);
-//        startActivity(intent);
+        mSpinner.setVisibility(View.VISIBLE);
 
-        new EndpointsAsyncTask().execute(new Pair<Context, SimpleIdlingResource>(this, mIdlingResource));
+        EndpointsAsyncTask asyncTask = new EndpointsAsyncTask(this);
+        asyncTask.execute();
 
     }
 
 
+    @Override
+    public void fetchResult(String result) {
 
+        mSpinner.setVisibility(View.INVISIBLE);
 
+        Intent intent = new Intent(this, JokeDisplay.class);
+        intent.putExtra(JokeDisplay.JOKE_EXTRA, result);
+        startActivity(intent);
+
+    }
 }

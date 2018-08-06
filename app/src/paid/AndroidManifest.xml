@@ -2,7 +2,7 @@
     package="com.udacity.gradle.builditbigger">
 
     <application>
-        <activity android:name="com.udacity.gradle.builditbigger.MainActivity"></activity>
+        <activity android:name="com.udacity.gradle.builditbigger.MainActivity"/>
     </application>
 
 </manifest>
