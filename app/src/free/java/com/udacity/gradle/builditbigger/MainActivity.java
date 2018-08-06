@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.android.jokedisplay.JokeDisplay;
 import com.google.android.gms.ads.AdListener;
@@ -23,10 +24,14 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
 
     private InterstitialAd mInterstitialAd;
 
+    private ProgressBar mSpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mSpinner = findViewById(R.id.pb_loading_indicator);
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
@@ -69,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
 
     public void tellJoke(View view) {
 
+        mSpinner.setVisibility(View.VISIBLE);
 
         EndpointsAsyncTask asyncTask = new EndpointsAsyncTask(this);
         asyncTask.execute();
@@ -78,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
 
     @Override
     public void fetchResult(String result) {
+
+        mSpinner.setVisibility(View.INVISIBLE);
 
         Intent intent = new Intent(this, JokeDisplay.class);
         intent.putExtra(JokeDisplay.JOKE_EXTRA, result);
