@@ -19,22 +19,23 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EndpointsAsyncTask.AsyncResponse {
 
     private InterstitialAd mInterstitialAd;
 
-    //private String mJoke;
-
-    @Nullable private SimpleIdlingResource mIdlingResource;
-
-    @VisibleForTesting
-    @NonNull
-    public IdlingResource getIdlingResource() {
-        if (mIdlingResource == null) {
-            mIdlingResource = new SimpleIdlingResource();
-        }
-        return mIdlingResource;
-    }
+//    private String mJoke;
+//    private Intent mJokeDisplayIntent;
+//
+//    @Nullable private SimpleIdlingResource mIdlingResource;
+//
+//    @VisibleForTesting
+//    @NonNull
+//    public IdlingResource getIdlingResource() {
+//        if (mIdlingResource == null) {
+//            mIdlingResource = new SimpleIdlingResource();
+//        }
+//        return mIdlingResource;
+//    }
 
 
     @Override
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getIdlingResource();
+        //getIdlingResource();
 
 
         mInterstitialAd = new InterstitialAd(this);
@@ -64,9 +65,10 @@ public class MainActivity extends AppCompatActivity {
                 super.onAdClosed();
                 mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
-//                Intent intent = new Intent(getApplicationContext(), JokeDisplay.class);
-//                intent.putExtra(JokeDisplay.JOKE_EXTRA, mJoke);
-//                getApplicationContext().startActivity(intent);
+//                if (mJokeDisplayIntent != null) {
+//                    startActivity(mJokeDisplayIntent);
+//                }
+
             }
         });
 
@@ -104,8 +106,22 @@ public class MainActivity extends AppCompatActivity {
             mInterstitialAd.show();
 
         }
-        new EndpointsAsyncTask().execute(new Pair<Context, SimpleIdlingResource>(this, mIdlingResource));
+        EndpointsAsyncTask asyncTask = new EndpointsAsyncTask(this);
+        asyncTask.execute();
+
+        //new EndpointsAsyncTask().execute(new Pair<Context, SimpleIdlingResource>(this, mIdlingResource));
     }
 
 
+    @Override
+    public void fetchResult(String result) {
+//        if (mIdlingResource != null) {
+//            mIdlingResource.setIdleState(true);
+//        }
+
+        Intent intent = new Intent(this, JokeDisplay.class);
+        intent.putExtra(JokeDisplay.JOKE_EXTRA, result);
+        startActivity(intent);
+
+    }
 }

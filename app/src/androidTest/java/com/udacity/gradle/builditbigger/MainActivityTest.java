@@ -46,13 +46,13 @@ public class MainActivityTest {
 
     private static final String JOKE = "This is a joke from jokeSource lib";
 
-    private IdlingResource mIdlingResource;
+//    private IdlingResource mIdlingResource;
 
-    @Before
-    public void registerIdlingResource() {
-        mIdlingResource = mActivityTestRule.getActivity().getIdlingResource();
-        IdlingRegistry.getInstance().register(mIdlingResource);
-    }
+//    @Before
+//    public void registerIdlingResource() {
+//        mIdlingResource = mActivityTestRule.getActivity().getIdlingResource();
+//        IdlingRegistry.getInstance().register(mIdlingResource);
+//    }
 
     @Before
     public void stubAllExternalIntents() {
@@ -64,14 +64,15 @@ public class MainActivityTest {
     public void buttonStartsActivityWithNonEmptyStringTest() {
         onView(withId(R.id.telljoke_button)).perform(click());
 
-        //intended(hasComponent(JokeDisplay.class.getName()));
+        intended(hasComponent(JokeDisplay.class.getName()));
+        //intended(hasExtra("joke_extra", withText(not(""))));
 
         onView(withId(R.id.joke_textView)).check(matches(not(withText(""))));
     }
 
-    @After
-    public void unregisterIdlingResource() {
-        IdlingRegistry.getInstance().unregister(mIdlingResource);
-    }
+//    @After
+//    public void unregisterIdlingResource() {
+//        IdlingRegistry.getInstance().unregister(mIdlingResource);
+//    }
 
 }

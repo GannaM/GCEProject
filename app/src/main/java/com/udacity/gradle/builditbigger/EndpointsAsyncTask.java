@@ -14,21 +14,30 @@ import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
-public class EndpointsAsyncTask extends AsyncTask<Pair<Context,SimpleIdlingResource>, Void, String> {
+public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
+
+    public interface AsyncResponse {
+        void fetchResult(String result);
+    }
+
+    public AsyncResponse mCallback;
+
+    public EndpointsAsyncTask(AsyncResponse callback) {
+        mCallback = callback;
+    }
 
     private static MyApi myApiService = null;
-    private WeakReference<Context> contextReference;
-    private SimpleIdlingResource mIdlingResource;
+    //private SimpleIdlingResource mIdlingResource;
 
     @Override
-    protected String doInBackground(Pair<Context, SimpleIdlingResource>... params) {
+    protected String doInBackground(Void... voids) {
 
-        contextReference = new WeakReference<>(params[0].first);
-        mIdlingResource = params[0].second;
-
-        if (mIdlingResource != null) {
-            mIdlingResource.setIdleState(false);
-        }
+        //contextReference = new WeakReference<>(params[0].first);
+//        mIdlingResource = params[0];
+//
+//        if (mIdlingResource != null) {
+//            mIdlingResource.setIdleState(false);
+//        }
 
         if(myApiService == null) {
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
@@ -45,20 +54,25 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context,SimpleIdlingResou
         }
     }
 
+
     @Override
     protected void onPostExecute(String result) {
 
-        Context context = contextReference.get();
-
-        if (mIdlingResource != null) {
-            mIdlingResource.setIdleState(true);
+        if (mCallback != null) {
+            mCallback.fetchResult(result);
         }
 
-        //if (!result.isEmpty()) {
-            Intent intent = new Intent(context, JokeDisplay.class);
-            intent.putExtra(JokeDisplay.JOKE_EXTRA, result);
-            context.startActivity(intent);
-        //}
+//        Context context = contextReference.get();
+//
+//        if (mIdlingResource != null) {
+//            mIdlingResource.setIdleState(true);
+//        }
+//
+//        //if (!result.isEmpty()) {
+//            Intent intent = new Intent(context, JokeDisplay.class);
+//            intent.putExtra(JokeDisplay.JOKE_EXTRA, result);
+//            context.startActivity(intent);
+//        //}
 
 
     }
