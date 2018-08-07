@@ -59,7 +59,5 @@ public class MainActivityTest {
                         hasEntry(equalTo("joke_extra"), not(equalTo(""))))
                 )
         );
-
-        //onView(withId(R.id.joke_textView)).check(matches(not(withText(""))));
     }
 }
