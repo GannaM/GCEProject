@@ -10,11 +10,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.Matchers.isEmptyString;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+
 
 
 @RunWith(JUnit4.class)
@@ -29,7 +27,6 @@ public class EndpointsAsyncTaskTest {
             @Override
             public void fetchResult(String result) {
 
-                //assertThat(result, not(isEmptyString()));
                 assertNotNull(result);
                 assertFalse(TextUtils.isEmpty(result));
 
