@@ -1,5 +1,7 @@
 package com.udacity.gradle.builditbigger;
 
+import android.text.TextUtils;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -10,6 +12,8 @@ import java.util.concurrent.TimeUnit;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.isEmptyString;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 
@@ -25,7 +29,9 @@ public class EndpointsAsyncTaskTest {
             @Override
             public void fetchResult(String result) {
 
-                assertThat(result, not(isEmptyString()));
+                //assertThat(result, not(isEmptyString()));
+                assertNotNull(result);
+                assertFalse(TextUtils.isEmpty(result));
 
                 signal.countDown();
             }
