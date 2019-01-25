@@ -1,4 +1,4 @@
-### Project Overview 
+# Project Overview 
 
 App with multiple flavors (free and paid versions) that uses multiple libraries and Google Cloud Endpoints. It consists of four modules. A Java library that provides jokes, a Google Cloud Endpoints (GCE) project that serves those jokes, an Android Library containing an activity for displaying jokes, and an Android app that fetches jokes from the GCE module and passes them to the Android Library for display.
 
@@ -32,7 +32,7 @@ Note: You do not need to follow the rest of steps in the migration guide, only t
 
 Start or stop your local server by using the gradle tasks as shown in the following screenshot:
 
-<img src="/FinalProject/GCE-server-gradle-tasks.png" height="500">
+<img src="https://raw.githubusercontent.com/udacity/ud867/master/FinalProject/GCE-server-gradle-tasks.png" height="500">
 
 Once your local GCE server is started you should see the following at 
 [localhost:8080](http://localhost:8080)
